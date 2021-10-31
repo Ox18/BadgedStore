@@ -1,15 +1,32 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+
+import { db } from "./core/connection";
+
+import ProductImpl from "./core/serviceImpl/ProductImpl";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  const rootRef = db.collection("products");
+
+  const [description, setDescription] = useState("initial");
+
+  rootRef.onSnapshot((snapshot) => {
+    console.log("A");
+    snapshot.docChanges().forEach((change) => {
+      console.log(change.doc.data());
+    });
+    console.log("B");
+  });
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>Hello Vite + React!</p>
+        {description}
         <p>
           <button type="button" onClick={() => setCount((count) => count + 1)}>
             count is: {count}
@@ -27,7 +44,7 @@ function App() {
           >
             Learn React
           </a>
-          {' | '}
+          {" | "}
           <a
             className="App-link"
             href="https://vitejs.dev/guide/features.html"
@@ -39,7 +56,7 @@ function App() {
         </p>
       </header>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
