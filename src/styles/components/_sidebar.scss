@@ -1,0 +1,24 @@
+.sidebar__item {
+  svg,
+  span {
+    color: $COLOR_WILD_BLUE_YONDER !important;
+  }
+}
+.sidebar__item--active {
+  background-color: $COLOR_WHITE !important;
+  border-right: 0.4rem solid $COLOR_ROYAL_BLUE;
+  transition: border-right 0.3s linear;
+
+  svg,
+  span {
+    color: $COLOR_INDIGO !important;
+  }
+}
+
+.sidebar__item,
+.sidebar__item--active {
+  span {
+    font-weight: 500 !important;
+    transition: color 0.3s linear;
+  }
+}

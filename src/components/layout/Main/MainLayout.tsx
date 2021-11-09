@@ -2,18 +2,13 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+
+import { SidebarLayout } from "../Sidebar/SidebarLayout";
 
 const drawerWidth = 240;
 
@@ -32,34 +27,6 @@ export const MainLayout: React.FC<IMainLayoutProps> = ({
     setMobileOpen(!mobileOpen);
   };
 
-  const drawer = (
-    <div>
-      <Toolbar />
-      <Divider />
-      <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  );
-
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
@@ -67,6 +34,11 @@ export const MainLayout: React.FC<IMainLayoutProps> = ({
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
+        style={{
+          backgroundColor: "#3860e7",
+          boxShadow: "none",
+          color: "#fff",
+        }}
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
@@ -83,9 +55,7 @@ export const MainLayout: React.FC<IMainLayoutProps> = ({
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Responsive drawer
-          </Typography>
+          <Typography variant="h6" noWrap component="div"></Typography>
         </Toolbar>
       </AppBar>
       <Box
@@ -110,7 +80,7 @@ export const MainLayout: React.FC<IMainLayoutProps> = ({
             },
           }}
         >
-          {drawer}
+          {<SidebarLayout />}
         </Drawer>
         <Drawer
           variant="permanent"
@@ -123,7 +93,7 @@ export const MainLayout: React.FC<IMainLayoutProps> = ({
           }}
           open
         >
-          {drawer}
+          {<SidebarLayout />}
         </Drawer>
       </Box>
       <Box

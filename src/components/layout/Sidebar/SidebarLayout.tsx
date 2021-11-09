@@ -1,74 +1,62 @@
-import React from "react";
-import { Box } from "@mui/system";
-import { Drawer } from "material-ui";
+import * as React from "react";
+import List from "@mui/material/List";
+import Toolbar from "@mui/material/Toolbar";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
+
+import {
+  ListItemSidebar,
+  ListItemSidebarPersonal,
+} from "../../../data/ListItemSidebar";
+
+import { SidebarItemComponent } from "../../common/SidebarItem";
+import { DividerComponent } from "../../common/Divider";
 
 export const SidebarLayout = () => {
-  const drawer = (
+  const history = useHistory();
+
+  const [itemSelected, setItemSelected] = useState("");
+
+  const handleClick = (id: string, path: string) => {
+    setItemSelected(id);
+    history.push(path);
+  };
+
+  const isSelected = (id: string) => {
+    return itemSelected === id;
+  };
+
+  return (
     <div>
-      <Toolbar />
-      <Divider />
+      <Toolbar></Toolbar>
+      <DividerComponent transparent />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
+        <SidebarItemComponent text="Menu" />
+        {ListItemSidebar.map((data, index) => (
+          <SidebarItemComponent
+            key={index}
+            {...data}
+            onClick={() => {
+              handleClick(data.id, data.path);
+            }}
+            selected={isSelected(data.id)}
+          />
         ))}
       </List>
-      <Divider />
+      <DividerComponent transparent />
       <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
+        <SidebarItemComponent text="Otros" />
+        {ListItemSidebarPersonal.map((data, index) => (
+          <SidebarItemComponent
+            key={index}
+            {...data}
+            onClick={() => {
+              handleClick(data.id, data.path);
+            }}
+            selected={isSelected(data.id)}
+          />
         ))}
       </List>
     </div>
-  );
-
-  return (
-    <Box
-      component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-      aria-label="mailbox folders"
-    >
-      {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-      <Drawer
-        container={container}
-        variant="temporary"
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
-        }}
-        sx={{
-          display: { xs: "block", sm: "none" },
-          "& .MuiDrawer-paper": {
-            boxSizing: "border-box",
-            width: drawerWidth,
-          },
-        }}
-      >
-        {drawer}
-      </Drawer>
-      <Drawer
-        variant="permanent"
-        sx={{
-          display: { xs: "none", sm: "block" },
-          "& .MuiDrawer-paper": {
-            boxSizing: "border-box",
-            width: drawerWidth,
-          },
-        }}
-        open
-      >
-        {drawer}
-      </Drawer>
-    </Box>
   );
 };
